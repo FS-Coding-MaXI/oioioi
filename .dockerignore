@@ -34,6 +34,7 @@
 /.gitignore
 /.github
 /extra/
+!/extra/dbdata/default_admin.json
 /test*
 !/test_report.css
 /*.rst

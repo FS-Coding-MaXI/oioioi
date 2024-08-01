@@ -1,4 +1,5 @@
-version: '3'
+version: '3.6'
+# https://github.com/docker/cli/issues/1293
 services:
   db:
     image: library/postgres:12.2
@@ -10,22 +11,36 @@ services:
       - postgress-data:/var/lib/postgresql/data
     stop_grace_period: 1m
   web:
-    image: sio2project/oioioi:$OIOIOI_VERSION
-    command: ["/sio2/oioioi/oioioi_init.sh"]
+    image: hermanplay/oioioi:v1.0.2
+    command: ["/sio2/oioioi/oioioi_init.sh", "--dev"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - "oioioi_uid=${OIOIOI_UID}"
     ports:
+    # web server
       - "8000:8000"
+    # notifications server
+    # - "7887:7887"
+    volumes:
+       - user-uploads:/sio2/deployment/media
     stop_grace_period: 3m
+    deploy:
+      endpoint_mode: vip
     depends_on:
       - db
       - broker
   worker:
-    image: sio2project/oioioi:$OIOIOI_VERSION
+    image: hermanplay/oioioi:v1.0.2
     command: ["/sio2/oioioi/worker_init.sh"]
     stop_grace_period: 1m
     cap_add:
       - ALL
     depends_on:
       - db
+    deploy:
+      replicas: 3
   broker:
     image: library/rabbitmq:3.8
     environment:
@@ -34,3 +49,13 @@ services:
     stop_grace_period: 1m
 volumes:
   postgress-data:
+    driver_opts:
+      type: "nfs"
+      o: "addr=194.29.178.17,nolock,soft,rw"
+      device: ":/vms/volumes/oioioi/postgress"
+  user-uploads:
+    driver_opts:
+      type: "nfs"
+      o: "addr=194.29.178.17,nolock,soft,rw"
+      device: ":/vms/volumes/oioioi/filetracker"
+

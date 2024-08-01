@@ -33,14 +33,14 @@ TEMPLATES[0]['APP_DIRS'] = False
 # PUBLIC_ROOT_URL = 'http://enter-your-domain-name-here.com/'
 
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['oioioi', '127.0.0.1', 'localhost', 'web']
+ALLOWED_HOSTS = ['oioioi', '127.0.0.1', 'localhost', 'web', 'oioioi.mini.pw.edu.pl']
 
 # The server to be run. Options are:
 # 'django' - django's http server
 # 'uwsgi' - uwsgi daemon
 # 'uwsgi-http' - uwsgi deamon with built-in http server
 # 'none' - nothing will be ran
-# SERVER = 'none'
+SERVER = 'uwsgi-http'
 
 # DATABASES = {
 #     'default': {

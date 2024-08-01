@@ -74,13 +74,15 @@ ENV RABBITMQ_USER 'oioioi'
 ENV RABBITMQ_PASSWORD 'oioioi'
 ENV FILETRACKER_LISTEN_ADDR '0.0.0.0'
 ENV FILETRACKER_LISTEN_PORT '9999'
-ENV FILETRACKER_URL 'http://web:9999'
+ENV FILETRACKER_URL 'http://localhost:9999'
 
 RUN oioioi-create-config /sio2/deployment
 
 WORKDIR /sio2/deployment
 
 RUN mkdir -p /sio2/deployment/logs/{supervisor,runserver}
+
+COPY --chown=oioioi:oioioi ./extra/dbdata/default_admin.json ./extra/dbdata/default_admin.json
 
 # Download sandboxes
 RUN ./manage.py supervisor > /dev/null --daemonize --nolaunch=uwsgi && \
