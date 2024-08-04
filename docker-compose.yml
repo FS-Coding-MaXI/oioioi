@@ -8,39 +8,30 @@ services:
       POSTGRES_PASSWORD: "password"
       POSTGRES_DB: "oioioi"
     volumes:
-      - postgress-data:/var/lib/postgresql/data
+      - postgress-data-dev:/var/lib/postgresql/data
     stop_grace_period: 1m
   web:
-    image: hermanplay/oioioi:v1.0.3
+    image: hermanplay/oioioi
     command: ["/sio2/oioioi/oioioi_init.sh", "--dev"]
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - "oioioi_uid=${OIOIOI_UID}"
     ports:
     # web server
       - "8000:8000"
     # notifications server
     # - "7887:7887"
     volumes:
-       - user-uploads:/sio2/deployment/media
+      - user-uploads:/sio2/deployment/media
     stop_grace_period: 3m
-    deploy:
-      endpoint_mode: vip
     depends_on:
       - db
       - broker
   worker:
-    image: hermanplay/oioioi:v1.0.3
+    image: hermanplay/oioioi
     command: ["/sio2/oioioi/worker_init.sh"]
     stop_grace_period: 1m
     cap_add:
       - ALL
     depends_on:
       - db
-    deploy:
-      replicas: 3
   broker:
     image: library/rabbitmq:3.8
     environment:
@@ -48,14 +39,13 @@ services:
       RABBITMQ_DEFAULT_PASS: oioioi
     stop_grace_period: 1m
 volumes:
-  postgress-data:
+  postgress-data-dev:
     driver_opts:
       type: "nfs"
       o: "addr=194.29.178.17,nolock,soft,rw"
-      device: ":/vms/volumes/oioioi/postgress"
+      device: ":/vms/volumes/oioioi/postgres"
   user-uploads:
     driver_opts:
       type: "nfs"
       o: "addr=194.29.178.17,nolock,soft,rw"
       device: ":/vms/volumes/oioioi/filetracker"
-

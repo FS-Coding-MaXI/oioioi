@@ -1,5 +1,6 @@
 version: '3.6'
 # https://github.com/docker/cli/issues/1293
+name: oioioi
 services:
   db:
     image: library/postgres:12.2
@@ -13,6 +14,13 @@ services:
   web:
     image: hermanplay/oioioi
     command: ["/sio2/oioioi/oioioi_init.sh", "--dev"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - "oioioi_uid=${OIOIOI_UID}"
+      extra_hosts:
+        - "web:127.0.0.1"
     ports:
     # web server
       - "8000:8000"

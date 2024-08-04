@@ -25,7 +25,8 @@ RUN apt-get update && \
         sox \
         flite \
         locales \
-        python3-pip && \
+        python3-pip \
+	--fix-missing && \
     apt-get clean
 
 # This is oioioi user linux uid. Setting it is useful in development.
@@ -74,7 +75,7 @@ ENV RABBITMQ_USER 'oioioi'
 ENV RABBITMQ_PASSWORD 'oioioi'
 ENV FILETRACKER_LISTEN_ADDR '0.0.0.0'
 ENV FILETRACKER_LISTEN_PORT '9999'
-ENV FILETRACKER_URL 'http://localhost:9999'
+ENV FILETRACKER_URL 'http://web:9999'
 
 RUN oioioi-create-config /sio2/deployment
 

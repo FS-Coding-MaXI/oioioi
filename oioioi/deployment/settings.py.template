@@ -33,9 +33,9 @@ TEMPLATES[0]['APP_DIRS'] = False
 # PUBLIC_ROOT_URL = 'http://enter-your-domain-name-here.com/'
 
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['oioioi', '127.0.0.1', 'localhost', 'web', '*.mini.pw.edu.pl', 'https://oioioi.mini.pw.edu.pl']
+ALLOWED_HOSTS = ['oioioi', '127.0.0.1', 'localhost', 'web', 'oioioi.mini.pw.edu.pl', '4859-91-145-190-200.ngrok-free.app']
 
-CSRF_TRUSTED_ORIGINS = ['https://*.mini.pw.edu.pl','https://*.127.0.0.1', 'https://oioioi.mini.pw.edu.pl']
+CSRF_TRUSTED_ORIGINS = ['https://*.mini.pw.edu.pl','https://oioioi.mini.pw.edu.pl', 'https://4859-91-145-190-200.ngrok-free.app']
 
 # The server to be run. Options are:
 # 'django' - django's http server
