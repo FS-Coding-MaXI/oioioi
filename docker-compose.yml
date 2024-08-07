@@ -40,12 +40,4 @@ services:
     stop_grace_period: 1m
 volumes:
   postgress-data-dev:
-    driver_opts:
-      type: "nfs"
-      o: "addr=194.29.178.17,nolock,soft,rw"
-      device: ":/vms/volumes/oioioi/postgres"
   user-uploads:
-    driver_opts:
-      type: "nfs"
-      o: "addr=194.29.178.17,nolock,soft,rw"
-      device: ":/vms/volumes/oioioi/filetracker"

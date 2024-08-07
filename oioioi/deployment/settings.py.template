@@ -35,7 +35,7 @@ TEMPLATES[0]['APP_DIRS'] = False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ['oioioi', '127.0.0.1', 'localhost', 'web', 'oioioi.mini.pw.edu.pl', '4859-91-145-190-200.ngrok-free.app']
 
-CSRF_TRUSTED_ORIGINS = ['https://*.mini.pw.edu.pl','https://oioioi.mini.pw.edu.pl', 'https://4859-91-145-190-200.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://*.mini.pw.edu.pl','https://oioioi.mini.pw.edu.pl', 'https://*.ngrok-free.app']
 
 # The server to be run. Options are:
 # 'django' - django's http server
@@ -397,7 +397,7 @@ CONTEST_MODE = ContestMode.neutral
 #
 # Uncomment once RabbitMQ is installed. By default SQLAlchemy is used,
 # but this is unreliable and not intended for production.
-# BROKER_URL = 'amqp://oioioi:oioioi@broker:5672//'
+BROKER_URL = 'amqp://oioioi:oioioi@oioioi_broker:5672//'
 
 # The logs for one specific logger 'oioioi.zeus' will be
 # stored in a specific file: `PROJECT_DIR/logs/zeus.log`.

@@ -69,13 +69,13 @@ COPY --chown=oioioi:oioioi . /sio2/oioioi
 
 
 ENV OIOIOI_DB_ENGINE 'django.db.backends.postgresql'
-ENV RABBITMQ_HOST 'broker'
+ENV RABBITMQ_HOST 'oioioi_broker'
 ENV RABBITMQ_PORT '5672'
 ENV RABBITMQ_USER 'oioioi'
 ENV RABBITMQ_PASSWORD 'oioioi'
 ENV FILETRACKER_LISTEN_ADDR '0.0.0.0'
 ENV FILETRACKER_LISTEN_PORT '9999'
-ENV FILETRACKER_URL 'http://web:9999'
+ENV FILETRACKER_URL 'http://127.0.0.1:9999'
 
 RUN oioioi-create-config /sio2/deployment
 
