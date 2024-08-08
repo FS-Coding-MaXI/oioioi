@@ -89,3 +89,4 @@ COPY --chown=oioioi:oioioi ./extra/dbdata/default_admin.json ./extra/dbdata/defa
 RUN ./manage.py supervisor > /dev/null --daemonize --nolaunch=uwsgi && \
     ./manage.py download_sandboxes -q -y -c /sio2/sandboxes && \
     ./manage.py supervisor stop all
+ENV FILETRACKER_URL 'http://oioioi_web:9999'
