@@ -69,6 +69,7 @@ COPY --chown=oioioi:oioioi . /sio2/oioioi
 
 
 ENV OIOIOI_DB_ENGINE 'django.db.backends.postgresql'
+ENV OIOIOI_DB_HOST 'oioioi_db'
 ENV RABBITMQ_HOST 'oioioi_broker'
 ENV RABBITMQ_PORT '5672'
 ENV RABBITMQ_USER 'oioioi'

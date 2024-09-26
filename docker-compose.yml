@@ -1,4 +1,3 @@
-version: '3.6'
 # https://github.com/docker/cli/issues/1293
 services:
   db:
@@ -17,7 +16,7 @@ services:
     # web server
       - "8000:8000"
     # notifications server
-    # - "7887:7887"
+      - "7887:7887"
     volumes:
       - user-uploads:/sio2/deployment/media
     stop_grace_period: 3m
