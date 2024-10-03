@@ -1,8 +1,7 @@
 version: '3.6'
 # https://github.com/docker/cli/issues/1293
-name: oioioi
 services:
-  db:
+  oioioi_db:
     image: library/postgres:12.2
     environment:
       POSTGRES_USER: "oioioi"
@@ -11,7 +10,7 @@ services:
     volumes:
       - postgress-data-dev:/var/lib/postgresql/data
     stop_grace_period: 1m
-  web:
+  oioioi_web:
     image: 127.0.0.1:5000/oioioi
     command: ["/sio2/oioioi/oioioi_init.sh", "--dev"]
     build:
@@ -20,7 +19,7 @@ services:
       args:
         - "oioioi_uid=${OIOIOI_UID}"
       extra_hosts:
-        - "web:127.0.0.1"
+        - "oioioi_web:127.0.0.1"
     ports:
     # web server
       - "8000:8000"
@@ -30,7 +29,7 @@ services:
       - user-uploads:/sio2/deployment/media
     stop_grace_period: 3m
     depends_on:
-      - db
+      - oioioi_db
       - broker
   worker:
     image: 127.0.0.1/oioioi
@@ -39,7 +38,7 @@ services:
     cap_add:
       - ALL
     depends_on:
-      - db
+      - oioioi_db
   broker:
     image: library/rabbitmq:3.8
     environment:
