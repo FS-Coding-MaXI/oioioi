@@ -98,15 +98,15 @@ SECRET_KEY = '__SECRET__'
 # MANAGERS = ADMINS
 
 # SMTP server parameters for sending emails.
-# EMAIL_USE_TLS = False
-# EMAIL_HOST = 'mail'
-# EMAIL_PORT = 25
-# EMAIL_HOST_USER = ''
-# EMAIL_HOST_PASSWORD = ''
-# EMAIL_SUBJECT_PREFIX = '[OIOIOI] '
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'poczta.mini.pw.edu.pl'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_SUBJECT_PREFIX = '[OIOIOI MINI] '
 
 # Sender email address for messages sent by OIOIOI to users.
-# DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+DEFAULT_FROM_EMAIL = 'oioioi@mini.pw.edu.pl'
 
 # Sender email address for error messages sent to admins.
 # SERVER_EMAIL = DEFAULT_FROM_EMAIL
