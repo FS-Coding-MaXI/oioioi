@@ -5,29 +5,35 @@ ENV PYTHONUNBUFFERED 1
 #RUN dpkg --add-architecture i386
 RUN apt-get update && \
     apt-get install -y \
-        git \
-        libpq-dev \
-        postgresql-client \
-        libdb-dev \
-        texlive-latex-base \
-        texlive-lang-polish \
-        texlive-latex-extra \
-        texlive-lang-german \
-        texlive-lang-european \
-        texlive-lang-czechslovak \
-        texlive-pstricks \
-        ghostscript \
-        texlive-fonts-recommended \
-        gcc \
-        sudo \
-        libstdc++6 \
-        zlib1g \
-        sox \
-        flite \
-        locales \
-        python3-pip \
-	--fix-missing && \
+    git \
+    libpq-dev \
+    postgresql-client \
+    libdb-dev \
+    texlive-latex-base \
+    texlive-lang-polish \
+    texlive-latex-extra \
+    texlive-lang-german \
+    texlive-lang-european \
+    texlive-lang-czechslovak \
+    texlive-pstricks \
+    ghostscript \
+    texlive-fonts-recommended \
+    gcc \
+    sudo \
+    libstdc++6 \
+    zlib1g \
+    sox \
+    flite \
+    locales \
+    python3-pip \
+    vim \
+    net-tools \
+    --fix-missing && \
     apt-get clean
+
+RUN apt-get update && apt-get install -y openssh-server
+
+RUN echo 'root:root' | chpasswd && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 # This is oioioi user linux uid. Setting it is useful in development.
 # By default we use an unused uid of 1234.
@@ -39,7 +45,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh && \
     mkdir -pv /sio2/oioioi && \
     mkdir -pv /sio2/sandboxes && \
     useradd -U oioioi -m -d /home/oioioi/ -u $oioioi_uid && \
-    echo "oioioi ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+    echo "oioioi ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     chown -R oioioi:oioioi /sio2
 
 # Modify locale
@@ -48,6 +54,7 @@ RUN sed -i -e "s/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/" /etc/locale.gen && \
 
 COPY ./entrypoint_checks.sh /entrypoint_checks.sh
 RUN chmod +x /entrypoint_checks.sh && chown oioioi /entrypoint_checks.sh
+
 
 # Installing python dependencies
 USER oioioi
@@ -61,7 +68,7 @@ RUN pip3 install --user bsddb3==6.2.7
 WORKDIR /sio2/oioioi
 
 COPY --chown=oioioi:oioioi setup.py requirements.txt ./
-RUN pip3 install -r requirements.txt --user
+RUN pip3 install -r requirements.txt  --user
 COPY --chown=oioioi:oioioi requirements_static.txt ./
 RUN pip3 install -r requirements_static.txt --user
 
@@ -77,6 +84,7 @@ ENV RABBITMQ_PASSWORD 'oioioi'
 ENV FILETRACKER_LISTEN_ADDR '0.0.0.0'
 ENV FILETRACKER_LISTEN_PORT '9999'
 ENV FILETRACKER_URL 'http://127.0.0.1:9999'
+ENV OIOIOI_DB_HOST 'oioioi_db'
 
 RUN oioioi-create-config /sio2/deployment
 
@@ -91,3 +99,5 @@ RUN ./manage.py supervisor > /dev/null --daemonize --nolaunch=uwsgi && \
     ./manage.py download_sandboxes -q -y -c /sio2/sandboxes && \
     ./manage.py supervisor stop all
 ENV FILETRACKER_URL 'http://oioioi_web:9999'
+
+CMD /sio2/oioioi/oioioi_init.sh --dev

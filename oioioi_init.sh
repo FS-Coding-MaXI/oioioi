@@ -2,6 +2,8 @@
 set -e
 set -x
 
+sudo /etc/init.d/ssh start
+
 /sio2/oioioi/wait-for-it.sh -t 60 "oioioi_db:5432"
 
 if [ "$1" == "--dev" ]; then
