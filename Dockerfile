@@ -33,12 +33,16 @@ RUN apt-get update && \
 
 RUN apt-get update && apt-get install -y openssh-server
 
-RUN echo 'root:root' | chpasswd && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN echo 'root:root' | chpasswd && \ 
+    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+    #mkdir /root/.ssh #&& \ 
+    #echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH4wMd+22+C0cK81b9kk9o0Dy2fQKontUk4alUh8Dfj7 mail@host" > /root/.ssh/authorized_keys && \
+    #chmod 600 /root/.ssh/authorized_keys
 
 # This is oioioi user linux uid. Setting it is useful in development.
 # By default we use an unused uid of 1234.
 # This is placed here to avoid redownloading package on uid change
-ARG oioioi_uid=1234
+ARG oioioi_uid=1000
 
 #Bash as shell, setup folders, create oioioi user
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh && \

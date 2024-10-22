@@ -1,0 +1,41 @@
+services:
+  db:
+    image: library/postgres:12.2
+    environment:
+      POSTGRES_USER: "oioioi"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "oioioi"
+    volumes:
+      - postgres-data-dev:/var/lib/postgresql/data
+    stop_grace_period: 1m
+  web:
+    image: hermanplay/oioioi
+    command: ["/sio2/oioioi/oioioi_init.sh", "--dev"]
+    ports:
+    # web server
+      - "8000:8000"
+    # notifications server
+    # - "7887:7887"
+    volumes:
+      - user-uploads:/sio2/deployment/media
+    stop_grace_period: 3m
+    depends_on:
+      - db
+      - broker
+  worker:
+    image: hermanplay/oioioi
+    command: ["/sio2/oioioi/worker_init.sh"]
+    stop_grace_period: 1m
+    cap_add:
+      - ALL
+    depends_on:
+      - db
+  broker:
+    image: library/rabbitmq:3.8
+    environment:
+      RABBITMQ_DEFAULT_USER: oioioi
+      RABBITMQ_DEFAULT_PASS: oioioi
+    stop_grace_period: 1m
+volumes:
+  postgres-data-dev:
+  user-uploads:

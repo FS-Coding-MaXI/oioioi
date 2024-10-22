@@ -3,6 +3,7 @@ set -e
 set -x
 
 sudo apt install -y proot
+sudo /etc/init.d/ssh start
 
 /sio2/oioioi/wait-for-it.sh -t 60 "oioioi_db:5432"
 /sio2/oioioi/wait-for-it.sh -t 0  "oioioi_web:8000"
